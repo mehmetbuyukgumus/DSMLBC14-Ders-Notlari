@@ -106,11 +106,11 @@ ogrenciler = ["Ali", "Veli", "Ayse", "Talat", "Zeynep", "Ece"]
 muh_list = ogrenciler[0:3]  # Mühendislik öğrencilerini ayrı bir listeye kaydediyorum
 tip_list = ogrenciler[3:]  # Tıp öğrencilerini ayrı bir listeye kaydediyorum
 
-for index, value in enumerate(ogrenciler):  # Enumarete ile elemanları indexleri ile beraber yakalıyorum
+for index, value in enumerate(ogrenciler, 1):  # Enumarete ile elemanları indexleri ile beraber yakalıyorum
     if value in muh_list:
         print(f"Mühendislik Fakültesi {index}. öğrenci: {value}")
     else:
-        print(f"Tıp Fakültesi {index}. öğrenci: {value}")
+        print(f"Tıp Fakültesi {index - 3}. öğrenci: {value}")
 
 # Görev 7:Aşağıda 3 adet liste verilmiştir. Listelerde sırası ile bir dersin kodu, kredisi ve kontenjan bilgileri
 # yer almaktadır. Zip kullanarak ders bilgilerini bastırınız.
