@@ -4,17 +4,27 @@
 
 # Görev 1: Verilen degerlerin veri yapilarini inceleyiniz
 x = 8
+type(x)
 y = 3.2
+type(y)
 z = 8j + 18
+type(z)
 a = "Hello World"
+type(a)
 b = True
-C = 23 < 22
+type(b)
+c = 23 < 22
+type(c)
 l = [11, 2, 3, 4]
+type(l)
 d = {"Name": "Jake",
      "Age": 27,
      "Adress": "Downtown"}
+type(d)
 t = ("Machine Learning", "Data Science")
+type(t)
 s = {"Python", "Machine Learning", "Data Science"}
+type(s)
 
 # Görev 2: Verilen string ifadenin tüm harflerini büyük harfe çeviriniz. Virgül ve nokta yerine space koyunuz,
 # kelime kelime ayiriniz.
@@ -23,16 +33,16 @@ text = "The goal is to turn data into information, and information into insight.
 
 # Çözüm 2:
 
-text_split = text.split()
-new_text = []
-for word in text_split:
-    for letter in word:
+text_split = text.split()  # Mevcut metni parçalara ayırıyorum
+new_text = []  # İstenilen çıktıyı kaydedeceğim boş bir liste oluşturuyorum
+for word in text_split:  # Parçalara ayırdığım metnin her bir elemanı üzerinde döngü yaratıyorum
+    for letter in word:  # Harflerin üzerinde dönecek yeni bir döngü daha yaratıyorum.
         if letter == ",":
             letter.replace(",", " ")
         elif letter == ".":
-            letter.replace(".", " ")
-    new_text.append(word.upper())
-print(new_text)
+            letter.replace(".", " ")  # Nokta ve virgül karakterlerini boş ile değiştiriyorum
+    new_text.append(word.upper())  # Her bir kelimeyi büyüterek yeni listeye kaydediyorum
+print(new_text)  # Finalde istenen çıktıyı yazdırıyorum
 
 # Görev 3:  Verilen liste yeaşağıdaki adımları uygulayınız.
 
@@ -74,18 +84,18 @@ del dct["Antonio"]
 sayilar = [12, 13, 18, 93, 221]
 
 
-def tek_citt_sayi(sayilar):
-    tek = []
-    cift = []
-    for number in sayilar:
-        if number % 2 == 0:
+def tek_citt_sayi(sayilar):  # Fonksiyonu tanımlıyorum
+    tek = []  # Tek sayılar için boş bir liste oluşturuyorum
+    cift = []  # Çift sayılar için boş bir liste oluşturuyorum
+    for number in sayilar:  # Tek ve çift sayıları tespit edebilmek için bir döngü yazıyorum.
+        if number % 2 == 0:  # Şayet sayının sıfıra bölümübden kalan sıfır ise çift sayılar listesine ekliyorum
             cift.append(number)
-        else:
+        else:  # Şayet yukarıdaki koşul sağlanmadıysa tek sayılar listesine ekliyorum
             tek.append(number)
-    return tek, cift
+    return tek, cift  # Fonksiyonun çıktısı olan tek ve çift sayıları return ediyorum
 
 
-tek_citt_sayi(sayilar)
+tek_citt_sayi(sayilar)  # Yazdığım fonksiyonu çağırıyorum
 
 # Görev 6:Aşağıda verilen listede mühendislik ve tıp fakülterinde dereceye giren öğrencilerin isimleri bulunmaktadır.
 # Sırasıyla ilk üç öğrenci mühendislik fakültesinin başarı sırasını temsil ederken son üç öğrenci de tıp fakültesi
@@ -93,10 +103,10 @@ tek_citt_sayi(sayilar)
 
 ogrenciler = ["Ali", "Veli", "Ayse", "Talat", "Zeynep", "Ece"]
 
-muh_list = ogrenciler[0:3]
-tip_list = ogrenciler[3:]
+muh_list = ogrenciler[0:3]  # Mühendislik öğrencilerini ayrı bir listeye kaydediyorum
+tip_list = ogrenciler[3:]  # Tıp öğrencilerini ayrı bir listeye kaydediyorum
 
-for index, value in enumerate(ogrenciler):
+for index, value in enumerate(ogrenciler):  # Enumarete ile elemanları indexleri ile beraber yakalıyorum
     if value in muh_list:
         print(f"Mühendislik Fakültesi {index}. öğrenci: {value}")
     else:
