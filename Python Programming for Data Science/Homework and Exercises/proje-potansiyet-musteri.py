@@ -6,11 +6,12 @@
 #############################################
 # İş Problemi
 #############################################
-# Bir oyun şirketi müşterilerinin bazı özelliklerini kullanarak seviye tabanlı (level based) yeni müşteri tanımları (persona)
-# oluşturmak ve bu yeni müşteri tanımlarına göre segmentler oluşturup bu segmentlere göre yeni gelebilecek müşterilerin şirkete
-# ortalama ne kadar kazandırabileceğini tahmin etmek istemektedir.
+# Bir oyun şirketi müşterilerinin bazı özelliklerini kullanarak seviye tabanlı (level based) yeni müşteri tanımları
+# (persona) oluşturmak ve bu yeni müşteri tanımlarına göre segmentler oluşturup bu segmentlere göre yeni gelebilecek
+# müşterilerin şirkete ortalama ne kadar kazandırabileceğini tahmin etmek istemektedir.
 
-# Örneğin: Türkiye’den IOS kullanıcısı olan 25 yaşındaki bir erkek kullanıcının ortalama ne kadar kazandırabileceği belirlenmek isteniyor.
+# Örneğin: Türkiye’den IOS kullanıcısı olan 25 yaşındaki bir erkek kullanıcının ortalama ne kadar kazandırabileceği
+# belirlenmek isteniyor.
 
 
 #############################################
@@ -53,7 +54,6 @@
 #############################################
 # GÖREV 1: Aşağıdaki soruları yanıtlayınız.
 #############################################
-import numpy as np
 import pandas as pd
 # Soru 1: persona.csv dosyasını okutunuz ve veri seti ile ilgili genel bilgileri gösteriniz.
 data = pd.read_csv("datasets/persona.csv")
@@ -89,7 +89,7 @@ df.groupby("COUNTRY").agg({"PRICE": "mean"})
 df.groupby("SOURCE").agg({"PRICE": "mean"})
 
 # Soru 10: COUNTRY-SOURCE kırılımında PRICE ortalamaları nedir?
-df.groupby(["COUNTRY","SOURCE"]).agg({"PRICE": "mean"})
+df.groupby(["COUNTRY", "SOURCE"]).agg({"PRICE": "mean"})
 
 #############################################
 # GÖREV 2: COUNTRY, SOURCE, SEX, AGE kırılımında ortalama kazançlar nedir?
@@ -101,7 +101,7 @@ df.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"]).agg({"PRICE": "mean"})
 #############################################
 # Önceki sorudaki çıktıyı daha iyi görebilmek için sort_values metodunu azalan olacak şekilde PRICE'a uygulayınız.
 # Çıktıyı agg_df olarak kaydediniz.
-agg_df = df.sort_values(by ="PRICE", ascending=False)
+agg_df = df.sort_values(by="PRICE", ascending=False)
 agg_df.head()
 
 #############################################
@@ -119,8 +119,8 @@ agg_df.head()
 # Age sayısal değişkenini kategorik değişkene çeviriniz.
 # Aralıkları ikna edici olacağını düşündüğünüz şekilde oluşturunuz.
 # Örneğin: '0_18', '19_23', '24_30', '31_40', '41_70'
-bins = [0,18,23,30,40,70]
-agg_df["AGE_CAT"] = pd.cut(agg_df["AGE"], bins=bins, labels= ['0_18', '19_23', '24_30', '31_40', '41_70'])
+bins = [0, 18, 23, 30, 40, 70]
+agg_df["AGE_CAT"] = pd.cut(agg_df["AGE"], bins=bins, labels=['0_18', '19_23', '24_30', '31_40', '41_70'])
 agg_df.head()
 #############################################
 # GÖREV 6: Yeni level based müşterileri tanımlayınız ve veri setine değişken olarak ekleyiniz.
@@ -131,7 +131,8 @@ agg_df.head()
 # Örneğin birden fazla şu ifadeden olabilir: USA_ANDROID_MALE_0_18
 # Bunları groupby'a alıp price ortalamalarını almak gerekmektedir.
 
-agg_df["customers_level_based"] = agg_df["COUNTRY"] + "_" + agg_df["SOURCE"] + "_" + agg_df["SEX"] + "_" + agg_df["AGE_CAT"].astype(str)
+agg_df["customers_level_based"] = (agg_df["COUNTRY"] + "_" + agg_df["SOURCE"] + "_" + agg_df["SEX"] + "_" +
+                                   agg_df["AGE_CAT"].astype(str))
 agg_df["customers_level_based"] = agg_df["customers_level_based"].apply(lambda x: x.upper())
 agg_df.head()
 #############################################
