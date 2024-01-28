@@ -62,7 +62,7 @@ pd.set_option("display.width", 500)
 df = data.copy()
 df.head()
 df.info()
-df.describe().T
+df_des = df.describe().T
 # Soru 2: Kaç unique SOURCE vardır? Frekansları nedir?
 df["SOURCE"].unique()
 df["SOURCE"].nunique()
@@ -119,6 +119,7 @@ agg_df.head()
 # Age sayısal değişkenini kategorik değişkene çeviriniz.
 # Aralıkları ikna edici olacağını düşündüğünüz şekilde oluşturunuz.
 # Örneğin: '0_18', '19_23', '24_30', '31_40', '41_70'
+agg_df["AGE"] = agg_df["AGE"].astype("O")
 bins = [0, 18, 23, 30, 40, 70]
 agg_df["AGE_CAT"] = pd.cut(agg_df["AGE"], bins=bins, labels=['0_18', '19_23', '24_30', '31_40', '41_70'])
 agg_df.head()
@@ -141,9 +142,9 @@ agg_df.head()
 # PRICE'a göre segmentlere ayırınız,
 # segmentleri "SEGMENT" isimlendirmesi ile agg_df'e ekleyiniz,
 # segmentleri betimleyiniz,
-agg_df["SEGMENT"] = pd.qcut(agg_df["PRICE"], 4, labels=["C", "B", "A"], duplicates="drop")
-agg_df.head()
-agg_df.groupby("SEGMENT").agg({"PRICE": "sum"})
+agg_df["SEGMENT"] = pd.cut(agg_df["PRICE"], 4, labels=["D", "C", "B", "A"])
+agg_df["SEGMENT"].unique()
+agg_df.groupby("SEGMENT").agg({"PRICE": ["sum", "mean", "max"]})
 #############################################
 # GÖREV 8: Yeni gelen müşterileri sınıflandırınız ne kadar gelir getirebileceğini tahmin ediniz.
 #############################################
@@ -151,10 +152,10 @@ agg_df.groupby("SEGMENT").agg({"PRICE": "sum"})
 agg_df["AGE_CAT"].unique()
 new_customer_TUR = "TUR_ANDROID_FEMALE_31_40"
 TUR_cus_df = agg_df[agg_df["customers_level_based"] == new_customer_TUR]
-TUR_cus_df["SEGMENT"].value_counts() # Yeni müşterinin ait olduğu segment
-TUR_cus_df["PRICE"].mean() # Yeni müşterinin kazandıracağı ortalama gelir (41,72)
+TUR_cus_df["SEGMENT"].value_counts()  # Yeni müşterinin ait olduğu segment
+TUR_cus_df["PRICE"].mean()  # Yeni müşterinin kazandıracağı ortalama gelir (41,72)
 # 35 yaşında IOS kullanan bir Fransız kadını hangi segmente ve ortalama ne kadar gelir kazandırması beklenir?
 new_customer_FRA = "FRA_IOS_FEMALE_31_40"
 FRA_cus_df = agg_df[agg_df["customers_level_based"] == new_customer_FRA]
-FRA_cus_df["SEGMENT"].value_counts() # Yeni müşterinin ait olduğu segment
-FRA_cus_df["PRICE"].mean() # Yeni müşterinin kazandıracağı ortalama gelir (32,75)
+FRA_cus_df["SEGMENT"].value_counts()  # Yeni müşterinin ait olduğu segment
+FRA_cus_df["PRICE"].mean()  # Yeni müşterinin kazandıracağı ortalama gelir (32,75)
