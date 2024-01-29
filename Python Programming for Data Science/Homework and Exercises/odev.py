@@ -185,6 +185,7 @@ df = data.copy()
 df["sex"].value_counts()
 
 # Görev3: Her bir sutuna ait unique değerlerin sayısını bulunuz.
+df.nunique()  # Kısa yolu
 for col in df.columns:
     dict = {col: df[col].nunique()}
     print(dict)
@@ -209,8 +210,8 @@ df[df["embarked"] != "S"].head()
 # Görev9: Yaşı 30 dan küçük ve kadın olan yolcuların tüm bilgilerini gösteriniz.
 df[(df["age"] < 30) & (df["sex"] == "female")].head()
 
-# Görev10: Fare'i 500'den büyük ve yayaşı 70 den büyük yolcuların bilgilerini gösteriniz.
-df[(df["fare"] > 500) & (df["age"] > 70)].head()
+# Görev10: Fare'i 500'den büyük veya yayaşı 70 den büyük yolcuların bilgilerini gösteriniz.
+df[(df["fare"] > 500) | (df["age"] > 70)].head()
 
 # Görev 11: Her bir değişkendeki boş değerlerin toplamını bulunuz.
 df.isnull().sum()
@@ -231,7 +232,7 @@ df.groupby(["pclass", "sex"]).agg({"survived": ["sum", "count", "mean"]})
 # Yazdığınız fonksiyonu kullanarak titanik veri setinde age_flag adında bir değişken oluşturunuz.
 # (apply ve lambda yapılarını kullanınız)
 
-df["age_flag"] = df["age"].apply(lambda x: 1.30 if x < 30 else 0)
+df["age_flag"] = df["age"].apply(lambda x: 1 if x < 30 else 0)
 
 # Görev17: Seaborn kütüphanesi içerisinden Tips veri setini tanımlayınız.
 data = sns.load_dataset("Tips")
@@ -248,11 +249,11 @@ df.groupby("day").agg({"total_bill": ["sum", "min", "max", "mean"]})
 # Görev 20: Lunch zamanına ve kadın müşterilere ait total_bill ve tip  değerlerinin day'e göre
 # toplamını, min, max ve ortalamasını bulunuz
 new_df = df[(df["time"] == "Lunch") & (df["sex"] == "Female")]
-new_df.groupby("time").agg({"total_bill": ["sum", "min", "max", "mean"],
-                            "tip": ["sum", "min", "max", "mean"]})
+new_df.groupby("day").agg({"total_bill": ["sum", "min", "max", "mean"],
+                           "tip": ["sum", "min", "max", "mean"]})
 
 # Görev 21: size'i 3'ten küçük, total_bill'i 10'dan büyük olan siparişlerin ortalaması nedir? (loc kullanınız)
-df_average = df[(df["total_bill"] > 10) & (df["size"] < 3)]
+df_average = df.loc[(df["total_bill"] > 10) & (df["size"] < 3)]
 df_average["total_bill"].mean()
 
 # Görev22: total_bill_tip_sum adında yeni bir değişken oluşturunuz. Her bir müşterinin ödediği totalbill ve tip in
@@ -262,6 +263,6 @@ df["total_bill_tip_sum"] = df["total_bill"] + df["tip"]
 # Görev23:  total_bill_tip_sum değişkenine göre büyükten küçüğe sıralayınız ve ilk 30 kişiyi
 # yeni bir dataframe'e atayınız.
 
-df = df.sort_values(by = ["total_bill_tip_sum"], ascending = False)
+df = df.sort_values(by="total_bill_tip_sum", ascending=False)
 new_df = df.reset_index(drop= True)
 new_df[0:30]

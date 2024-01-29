@@ -80,7 +80,7 @@ df.groupby("COUNTRY").agg({"COUNTRY": "count"})
 df.groupby("COUNTRY").agg({"PRICE": "sum"})
 
 # Soru 7: SOURCE türlerine göre göre satış sayıları nedir?
-df.groupby("SOURCE").agg({"PRICE": "sum"})
+df.groupby("SOURCE").agg({"PRICE": "count"})
 
 # Soru 8: Ülkelere göre PRICE ortalamaları nedir?
 df.groupby("COUNTRY").agg({"PRICE": "mean"})
@@ -122,7 +122,8 @@ agg_df.head()
 # Örneğin: '0_18', '19_23', '24_30', '31_40', '41_70'
 agg_df["AGE"] = agg_df["AGE"].astype("O")
 bins = [0, 18, 23, 30, 40, 70]
-agg_df["AGE_CAT"] = pd.cut(agg_df["AGE"], bins=bins, labels=['0_18', '19_23', '24_30', '31_40', '41_70'])
+labels = ['0_18', '19_23', '24_30', '31_40', '41_70']
+agg_df["AGE_CAT"] = pd.cut(agg_df["AGE"], bins=bins, labels=labels)
 agg_df.head()
 #############################################
 # GÖREV 6: Yeni level based müşterileri tanımlayınız ve veri setine değişken olarak ekleyiniz.
@@ -135,15 +136,29 @@ agg_df.head()
 
 agg_df["customers_level_based"] = (agg_df["COUNTRY"] + "_" + agg_df["SOURCE"] + "_" + agg_df["SEX"] + "_" +
                                    agg_df["AGE_CAT"].astype(str))
+## Sevinç'in Çözümü
+# agg_df["customers_level_based"] = agg_df[['COUNTRY', 'SOURCE', 'SEX', 'AGE_CAT']].apply(
+#     lambda x: '_'.join([str(y).upper() for y in x]), axis=1)
+
+## Elif'in Çözümü:
+# def find(row):
+#     return '_'.join(str(row[col]).upper() for col in agg_df.columns if col not in ['PRICE', 'AGE'])
+#
+#
+# agg_df['customers_level_based'] = agg_df.apply(find, axis=1)
+
+
+
 agg_df["customers_level_based"] = agg_df["customers_level_based"].apply(lambda x: x.upper())
 agg_df.head()
+agg_df.groupby("customers_level_based").agg({"PRICE": "mean"})
 #############################################
 # GÖREV 7: Yeni müşterileri (USA_ANDROID_MALE_0_18) segmentlere ayırınız.
 #############################################
 # PRICE'a göre segmentlere ayırınız,
 # segmentleri "SEGMENT" isimlendirmesi ile agg_df'e ekleyiniz,
 # segmentleri betimleyiniz,
-agg_df["SEGMENT"] = pd.qcut(agg_df["PRICE"], 4, labels=["D", "C", "B", "A"], duplicates="drop")
+agg_df["SEGMENT"] = pd.qcut(agg_df["PRICE"], 4, labels=["D", "C", "B", "A"])
 agg_df["SEGMENT"].unique()
 agg_df.groupby("SEGMENT").agg({"PRICE": ["sum", "mean", "max"]})
 #############################################
