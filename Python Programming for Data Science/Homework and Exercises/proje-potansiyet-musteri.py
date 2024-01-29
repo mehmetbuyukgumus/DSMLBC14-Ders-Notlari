@@ -94,14 +94,15 @@ df.groupby(["COUNTRY", "SOURCE"]).agg({"PRICE": "mean"})
 #############################################
 # GÖREV 2: COUNTRY, SOURCE, SEX, AGE kırılımında ortalama kazançlar nedir?
 #############################################
-df.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"]).agg({"PRICE": "mean"})
+cssa = df.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"]).agg({"PRICE": "mean"})
+
 
 #############################################
 # GÖREV 3: Çıktıyı PRICE'a göre sıralayınız.
 #############################################
 # Önceki sorudaki çıktıyı daha iyi görebilmek için sort_values metodunu azalan olacak şekilde PRICE'a uygulayınız.
 # Çıktıyı agg_df olarak kaydediniz.
-agg_df = df.sort_values(by="PRICE", ascending=False)
+agg_df = cssa.sort_values(by="PRICE", ascending=False)
 agg_df.head()
 
 #############################################
@@ -142,8 +143,7 @@ agg_df.head()
 # PRICE'a göre segmentlere ayırınız,
 # segmentleri "SEGMENT" isimlendirmesi ile agg_df'e ekleyiniz,
 # segmentleri betimleyiniz,
-agg_df["SEGMENT"] = pd.qcut(agg_df["PRICE"], 5, labels=["D", "C", "B", "A"], duplicates="drop")
-agg_df["SEGMENT"] = pd.cut(agg_df["PRICE"], 4, labels=["D", "C", "B", "A"], duplicates="drop")
+agg_df["SEGMENT"] = pd.qcut(agg_df["PRICE"], 4, labels=["D", "C", "B", "A"], duplicates="drop")
 agg_df["SEGMENT"].unique()
 agg_df.groupby("SEGMENT").agg({"PRICE": ["sum", "mean", "max"]})
 #############################################
@@ -153,10 +153,10 @@ agg_df.groupby("SEGMENT").agg({"PRICE": ["sum", "mean", "max"]})
 agg_df["AGE_CAT"].unique()
 new_customer_TUR = "TUR_ANDROID_FEMALE_31_40"
 TUR_cus_df = agg_df[agg_df["customers_level_based"] == new_customer_TUR]
-TUR_cus_df["SEGMENT"].value_counts()  # Yeni müşterinin ait olduğu segment
-TUR_cus_df["PRICE"].mean()  # Yeni müşterinin kazandıracağı ortalama gelir (41,72)
+TUR_cus_df["SEGMENT"].value_counts()  # Yeni müşterinin ait olduğu segment (A segmenti)
+TUR_cus_df["PRICE"].mean()  # Yeni müşterinin kazandıracağı ortalama gelir (41,83)
 # 35 yaşında IOS kullanan bir Fransız kadını hangi segmente ve ortalama ne kadar gelir kazandırması beklenir?
 new_customer_FRA = "FRA_IOS_FEMALE_31_40"
 FRA_cus_df = agg_df[agg_df["customers_level_based"] == new_customer_FRA]
-FRA_cus_df["SEGMENT"].value_counts()  # Yeni müşterinin ait olduğu segment
-FRA_cus_df["PRICE"].mean()  # Yeni müşterinin kazandıracağı ortalama gelir (32,75)
+FRA_cus_df["SEGMENT"].value_counts()  # Yeni müşterinin ait olduğu segment (C Segmenti)
+FRA_cus_df["PRICE"].mean()  # Yeni müşterinin kazandıracağı ortalama gelir (32,81)
