@@ -142,7 +142,8 @@ agg_df.head()
 # PRICE'a göre segmentlere ayırınız,
 # segmentleri "SEGMENT" isimlendirmesi ile agg_df'e ekleyiniz,
 # segmentleri betimleyiniz,
-agg_df["SEGMENT"] = pd.cut(agg_df["PRICE"], 4, labels=["D", "C", "B", "A"])
+agg_df["SEGMENT"] = pd.qcut(agg_df["PRICE"], 5, labels=["D", "C", "B", "A"], duplicates="drop")
+agg_df["SEGMENT"] = pd.cut(agg_df["PRICE"], 4, labels=["D", "C", "B", "A"], duplicates="drop")
 agg_df["SEGMENT"].unique()
 agg_df.groupby("SEGMENT").agg({"PRICE": ["sum", "mean", "max"]})
 #############################################
