@@ -1,0 +1,10 @@
+Customer Lifetime Value Formulas:
+
+
+Average Order Value = (average_order_value = total_price / total_transaction)
+Purchase Frequency = (total_transaction / total_number_of_customers)
+Repeat Rate = (birden fazla alışveriş yapan müşteri sayısı / tüm müşteriler)
+Churn Rate = 1 - repat rate
+Profit Margin =  (total_price * 0.10)
+Customer Value =  (average_order_value * purchase_frequency)
+Customer Lifetime Value (CLTV = (customer_value / churn_rate) x profit_margin)

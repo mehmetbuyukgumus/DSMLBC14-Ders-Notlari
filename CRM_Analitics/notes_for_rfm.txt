@@ -1,0 +1,50 @@
+1) CRM Analitiğine Giriş
+
+    1.1) Giriş
+
+    CRM: Müşteri İlişkileri Yönetimi
+
+    Müşteri Yaşam Döngüsü Optimizasyonları (Customer Lifecylce/Journel/Funnel)
+
+    İletişim
+    Müşteri Bulma Çalışmaları
+    Müşteri Elde Tutma Çalışmaları
+    ÖNEMLİ NOT: CRM çalışmalarının büyük çoğunluğu mevcut müşterileri elde tutmaya dönüktür
+
+    Cross-Sell: Tamamlayıcı ürünlerin satılması. Örneğin bir ikişi hamburger aldıysa ona kola ve patates kızarması
+                da satılabilir
+    UpSell: Kullanıcı küçük boy bir kola aldıysa büyük boy kola da alabilir. Kısaca daha fazla satış yapma çalışmasıdır.
+    Müşteri Segmentasyonu Çalışmaları: Şirketin müşterilerini segmentlere ayırarak daha nitelikli iletişim kurmasıdır.
+
+    1.2) KPIs(Key Performans Indicators) - Temel Performans Göstergeleri
+
+    KPI: Bir şirketin departmanlarının ya da çalışanlarının performanslarını ölçmek için kullanılan matematiksel
+    göstergelerdir.
+
+    Customer Acquisation Rate (Müşteri Kazanma Oranı): Bir çalışma sonucunda elde edilen yeni müşteri sayısını ifade eder.
+    Customer Retention Rate (Müşteri Elde Tutma Oranı): Örneğin bir sonraki ayda da işlem yapan müşteri oranıdır.
+    Customer Churn Rate (Müşteri Terk Oranı): Örneğin bir önceki aya göre işlem yapmayan müşteriler.
+    Conversion Rate (Dönüşüm Oranı): Örneğin bir ilanı bin kişi gördü ve yüz kişi tıkladıysa bunun dönüşüm oranı 0.10'dur.
+    Veya bu 100 kişiden 1 ikişi gelip ürünü satın aldı bunun dönüşüm oranı 0.01'dir.
+    Growth Rate (Büyüme Oranı): Şirketin en genel biçimde hedeflediği büyüme oranlarıdır.
+
+    1.3) COHORT Analizi:
+
+    Cohort Analizi: Ortak özelliklere sahip bir grup insan davranışının analizidir.
+
+2) RFM: Recency, Frequency, Monetary
+
+    RFM müşteri segmentasyonu için kullanılır. Müşterileri satın alma alışkanlıklarına göre segmentlere ayrılması
+    ve bu gruplar özelinde stratejiler geliştirilmesini sağlar.
+
+    2.1) RFM Metrikleri:
+    Recency: Yenilik, bir müşterinin en son ne zaman alışveriş yaptığını ifade eder.
+    Frequency: Sıklıktır, bir müşterinin satın alma sıklığını ifade eder.
+    Monetary: Parasal değerdir, bu ifade müşterilerin şirkete bıraktığı parasal değeri ifade eder.
+    R, F ve M skorları yanyana getirilerek RFM skorları oluşturulur
+
+
+
+
+
+
