@@ -35,7 +35,6 @@
 
 # GÖREV 1: Veriyi Anlama (Data Understanding) ve Hazırlama
 import pandas as pd
-import datetime as dt
 
 # 1. flo_data_20K.csv verisini okuyunuz.
 pd.set_option("display.max_columns", None)
@@ -180,4 +179,4 @@ def rfm_analysis(dataframe, seg_map):
                                                                             index=False)
 
 
-rfm_analysis(df,seg_map)
+rfm_analysis(df, seg_map)
