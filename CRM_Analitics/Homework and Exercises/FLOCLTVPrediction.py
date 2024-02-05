@@ -118,7 +118,7 @@ cltv["T_weekly"] = cltv["T_weekly"].dt.days
 
 # GÖREV 3: BG/NBD, Gamma-Gamma Modellerinin Kurulması, CLTV'nin hesaplanması
 # 1. BG/NBD modelini fit ediniz.
-bgf = BetaGeoFitter(penalizer_coef=0.01)
+bgf = BetaGeoFitter(penalizer_coef=0.001)
 bgf.fit(cltv["frequency"],
         cltv["recency_cltv_weekly"],
         cltv["T_weekly"])
@@ -144,20 +144,29 @@ ggf.fit(cltv["frequency"], cltv["monetary_cltv_avg"])
 cltv["exp_average_value"] = ggf.conditional_expected_average_profit(cltv["frequency"], cltv["monetary_cltv_avg"])
 
 # 3. 6 aylık CLTV hesaplayınız ve cltv ismiyle dataframe'e ekleyiniz.
-cltv["CLTV"] = cltv["exp_average_value"] * cltv["exp_sales_6_month"]
+
+# Ali'nin çöüzmü:
+cltv["cltv"] = ggf.customer_lifetime_value(bgf,
+                                           cltv["frequency"],
+                                           cltv["recency_cltv_weekly"],
+                                           cltv["T_weekly"],
+                                           cltv["monetary_cltv_avg"],
+                                           time=6,
+                                           freq="W")
+
 # b. Cltv değeri en yüksek 20 kişiyi gözlemleyiniz.
-cltv.sort_values(by="CLTV", ascending=False).head(20)
+cltv.sort_values(by="cltv", ascending=False).head(20)
 
 # GÖREV 4: CLTV'ye Göre Segmentlerin Oluşturulması
 # 1. 6 aylık tüm müşterilerinizi 4 gruba (segmente) ayırınız ve grup isimlerini veri setine ekleyiniz. cltv_segment ismi
 # ile dataframe'e ekleyiniz.
-cltv["cltv_segment"] = pd.qcut(cltv["CLTV"], 4, labels=["D", "C", "B", "A"])
+cltv["cltv_segment"] = pd.qcut(cltv["cltv"], 4, labels=["D", "C", "B", "A"])
 # 2. 4 grup içerisinden seçeceğiniz 2 grup için yönetime kısa kısa 6 aylık aksiyon önerilerinde bulununuz
-budget = cltv.groupby("cltv_segment").agg({"CLTV": "sum",
+budget = cltv.groupby("cltv_segment").agg({"cltv": "sum",
                                            "exp_sales_6_month": "sum"})
 ## Yönetime öneri:
 budget.reset_index(inplace=True)
-budget["percentage"] = budget["exp_sales_6_month"].apply(lambda x: x / budget["exp_sales_6_month"].sum())
+budget["percentage"] = budget["cltv"].apply(lambda x: x / budget["cltv"].sum())
 
 # Şirketin "percentage" değişkeninde hesaplanan yüzdelikler şeklinde pazarlama bütçesini ilgili segmentlere dağıtması
 # gerekir.
