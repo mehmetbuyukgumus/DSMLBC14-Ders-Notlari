@@ -35,6 +35,9 @@
 
 # GÖREV 1: Veriyi Anlama (Data Understanding) ve Hazırlama
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import datetime as dt
 
 # 1. flo_data_20K.csv verisini okuyunuz.
 pd.set_option("display.max_columns", None)
@@ -75,6 +78,14 @@ df[date_columns] = df[date_columns].apply(lambda x: pd.to_datetime(x))
 df.groupby("order_channel").agg({"master_id": "count",
                                  "total_order": "mean",
                                  "total_bill": "mean"})
+figure, ax = plt.subplots(nrows=1, ncols=2, figsize=(20, 10))
+sns.histplot(data=df, x="order_channel",
+             y="total_bill",
+             ax=ax[0])
+sns.histplot(data=df, x="order_channel",
+             y="total_order",
+             ax=ax[1])
+plt.show()
 
 # 6. En fazla kazancı getiren ilk 10 müşteriyi sıralayınız.
 df.sort_values(by="total_bill", ascending=False).head(10)
@@ -97,7 +108,8 @@ def preprocessing(dataframe):
 
 preprocessing(df)
 # GÖREV 2: RFM Metriklerinin Hesaplanması
-df["recency"] = df["last_order_date"] - df["first_order_date"]
+analysis_date = dt.datetime(2021, 6, 1)
+df["recency"] = (analysis_date - df["first_order_date"]).dt.days
 rfm = df.groupby("master_id").agg({"recency": lambda x: x,
                                    "total_bill": lambda x: x,
                                    "total_order": lambda x: x})

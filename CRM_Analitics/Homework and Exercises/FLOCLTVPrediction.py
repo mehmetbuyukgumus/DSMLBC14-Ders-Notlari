@@ -59,7 +59,7 @@ def outlier_thresholds(dataframe, variable):
 
 def replace_with_thresholds(dataframe, variable):
     low_limit, up_limit = outlier_thresholds(dataframe, variable)
-    dataframe.loc[(dataframe[variable] < low_limit), variable] = low_limit
+    # dataframe.loc[(dataframe[variable] < low_limit), variable] = low_limit
     dataframe.loc[(dataframe[variable] > up_limit), variable] = up_limit
 
 
@@ -71,6 +71,24 @@ replace_with_thresholds(df, "order_num_total_ever_online")
 replace_with_thresholds(df, "order_num_total_ever_offline")
 replace_with_thresholds(df, "customer_value_total_ever_offline")
 replace_with_thresholds(df, "customer_value_total_ever_online")
+
+# Elif'in Çözümü:
+
+for column in df.columns:
+    if 'ever' in column:
+        replace_with_thresholds(df, column)
+
+# Ali'nin Çözümü:
+
+columns = ["order_num_total_ever_online", "order_num_total_ever_offline", "customer_value_total_ever_offline",
+           "customer_value_total_ever_online"]
+
+for col in columns:
+    replace_with_thresholds(df, col)
+
+# Seviç'in Çözümü:
+
+[replace_with_thresholds(df, col) for col in df.columns if df[col].dtypes in ["float64"]]
 
 # 4. Omnichannel müşterilerin hem online'dan hemde offline platformlardan alışveriş yaptığını ifade etmektedir.
 # Herbir müşterinin toplam alışveriş sayısı ve harcaması için yeni değişkenler oluşturun.
@@ -94,7 +112,7 @@ cltv = pd.DataFrame({"customer_id": df["master_id"],
                      "recency_cltv_weekly": (df["last_order_date"] - df["first_order_date"]) / 7,
                      "T_weekly": (df["first_order_date"].apply(lambda x: analysis_date - x) / 7),
                      "frequency": df["total_order"],
-                     "monetary_cltv_avg": df["total_bill"].apply(lambda x: x * 0.10)})
+                     "monetary_cltv_avg": df["total_bill"] / df["total_order"]})
 cltv["recency_cltv_weekly"] = cltv["recency_cltv_weekly"].dt.days
 cltv["T_weekly"] = cltv["T_weekly"].dt.days
 
