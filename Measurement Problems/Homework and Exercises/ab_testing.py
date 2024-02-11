@@ -56,8 +56,8 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from scipy.stats import ttest_1samp, shapiro, levene, ttest_ind, mannwhitneyu, pearsonr, spearmanr
-from statsmodels.stats.proportion import proportions_ztest
+from scipy.stats import shapiro, levene, ttest_ind
+
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 500)
 # Adım 1:  ab_testing_data.xlsx adlı kontrol ve test grubu verilerinden oluşan veri setini okutunuz. Kontrol ve test
@@ -77,7 +77,7 @@ df = pd.concat([data_control_group, data_test_group], axis=1)
 #####################################################
 
 # Adım 1: Hipotezi tanımlayınız.
-# H0 : M1 = M2 Reklamların görüntülenme ortalamasıyla satış ortalaması arasında bir fark yoktur.
+# H0 : M1 = M2 Kontrol ve test grupları için satış ortalamalarındaki farkın istatistiksel olarak anlamı yoktur
 # H1 : M1 != M2 ... vardır.
 
 # Adım 2: Kontrol ve test grubu için purchase(kazanç) ortalamalarını analiz ediniz
@@ -90,7 +90,7 @@ sns.scatterplot(x="Impression_controls",
                 data=df)
 sns.scatterplot(x="Impression_tests",
                 y="Purchase_tests",
-                label="Purchase_controls",
+                label="Purchase_test",
                 data=df)
 
 plt.grid(True)
@@ -124,7 +124,7 @@ print(f"Test Stats: {test_stats} and p_value: {pvalue}")
 
 # Adım 2: Normallik Varsayımı ve Varyans Homojenliği sonuçlarına göre uygun testi seçiniz.
 ## Varsayım kontrolleri sonucu varsayımlar sağlanmadığı için mannwhitneyu testi yapılacaktır.
-test_stats, plavue = mannwhitneyu(df["Purchase_controls"], df["Purchase_tests"])
+test_stats, plavue = ttest_ind(df["Purchase_controls"], df["Purchase_tests"])
 print(f"Test Stats: {test_stats} & p_value: {plavue}")
 
 # Adım 3: Test sonucunda elde edilen p_value değerini göz önünde bulundurarak kontrol ve test grubu satın alma
@@ -136,8 +136,8 @@ print(f"Test Stats: {test_stats} & p_value: {plavue}")
 ##############################################################
 
 # Adım 1: Hangi testi kullandınız, sebeplerini belirtiniz.
-## Çalışmanın akışında mannwithneyu testi kullandım. Kurulan hipotez itibariyle normallik varsayımı sağlansa dahi
-## varyans homojemliği varsayımı sağlanmamıştır. Bu sebeple mannwithneyu testi kullanılmıştır.
+## Çalışmanın akışında t testi kullandım. Kurulan hipotez itibariyle normallik varsayımı sağlansa dahi
+## varyans homojemliği varsayımı sağlanmamıştır. Bu sebeple t testi kullanılmıştır.
 
 # Adım 2: Elde ettiğiniz test sonuçlarına göre müşteriye tavsiyede bulununuz.
 ## Yapılan hipotez testi sonucunda Facebook'un geliştridği yeni average bidding yöntemi şirket için maddi bir yük
