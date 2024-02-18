@@ -33,7 +33,7 @@ df['overview'] = df['overview'].fillna('')
 
 tfidf_matix = tfidf.fit_transform(df['overview'])
 tfidf_matix.shape
-tfidf.get_feature_names_out()
+tfidf.get_feature_names()
 tfidf_matix.toarray()
 
 #################################
