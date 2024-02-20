@@ -18,7 +18,7 @@ df = movie.merge(rating, how="left", on="movieId")
 df = pd.merge(movie,rating, on="movieId", how="left")
 # Adım 3: Toplam oy kullanılma sayısın 1000'ın altında olanları tutun ve veri setinden çıkarın
 comment_counts = pd.DataFrame(df["title"].value_counts())
-rare_movies = comment_counts[comment_counts["count"] <= 1000].index
+rare_movies = comment_counts[comment_counts["title"] <= 1000].index
 common_movies = df[~df["title"].isin(rare_movies)]
 common_movies["title"].value_counts()
 
@@ -77,7 +77,7 @@ final_df = pd.concat([movies_watched_df[movies_watched_df.index.isin(users_same_
                       random_user_df[movies_watched]])
 
 # Adım 2 : Kolerasyonlar ile corr_df
-corr_df = final_df.T.corr().stack().sort_values().drop_duplicates()   # T
+corr_df = final_df.T.corr().unstack().sort_values()   # T
 corr_df = pd.DataFrame(corr_df)
 corr_df.index.names = ["user_id_1", "user_id_2"]
 corr_df.columns = ["corr"]
@@ -90,8 +90,8 @@ corr_df[corr_df["user_id_1"] == random_user].sort_values(by="corr", ascending=Fa
 
 # Adım 4 : Rating merge etmek
 # top_users.rename(columns={"user_id_2": "userId"}, inplace=True)
-top_users_ratings = pd.merge(top_users, rating[["user_id_2", "movieId", "rating"]])
 rating.columns = ['user_id_2', 'movieId', 'rating', 'timestamp']
+top_users_ratings = pd.merge(top_users, rating[["user_id_2", "movieId", "rating"]])
 
 # Gorev 5: Weighted Average Recommendation Score'un Hesaplanması ve İlk 5 Filmin Tutulması
 # Adım 1 : Corr ve Rating çarpımınn weighted_rating adıyla yeni bir değişken
@@ -105,5 +105,5 @@ recommendation_df = recommendation_df.reset_index()
 movies_to_be_recommend = recommendation_df[recommendation_df["weighted_rating"] > 3.5].sort_values("weighted_rating",
                                                                                                    ascending=False)
 
-movies_to_be_recommend.merge(movie[["movieId", "title"]])
+movies_to_be_recommend = movies_to_be_recommend.merge(movie[["movieId", "title"]])
 movies_to_be_recommend.head()
