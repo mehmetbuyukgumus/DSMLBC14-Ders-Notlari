@@ -238,7 +238,7 @@ def label_encoder(dataframe, binary_col):
     Parameters
     ----------
     dataframe: Veri setini ifade eder.
-    binary_col: Encode edilecek olarak değişkenleri ifade eder
+    binary_col: Encode edilecek olaran değişkenleri ifade eder
 
     Returns
     -------
