@@ -17,11 +17,11 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from feature_engeineering.fucs.helper_functions import grab_col_names, check_outlier
 
 data = pd.read_csv('datasets/diabetes.csv')
 pd.set_option('display.max_columns', None)
@@ -232,7 +232,7 @@ plt.show(block=False)
 ######### Emre'nin çözümü
 cor_matrix = df.corr().abs()
 
-## Görev 2 : Feature Engineering
+## Görev 2 : feature_engeineering
 
 # Adım 1: Eksik ve aykırı değerler için gerekli işlemleri yapınız. Veri setinde eksik gözlem bulunmamakta ama
 # Glikoz, Insulin vb. değişkenlerde 0 değeri içeren gözlem birimleri eksik değeri ifade ediyor olabilir.

@@ -838,7 +838,7 @@ df.head()
 df.groupby("NEW_SEX_CAT")["Survived"].mean()
 
 #############################################
-# Titanic Uçtan Uca Feature Engineering & Data Preprocessing
+# Titanic Uçtan Uca feature_engeineering & Data Preprocessing
 #############################################
 
 df = load()
@@ -848,7 +848,7 @@ df.head()
 df.columns = [col.upper() for col in df.columns]
 
 #############################################
-# 1. Feature Engineering (Değişken Mühendisliği)
+# 1. feature_engeineering (Değişken Mühendisliği)
 #############################################
 
 # Cabin bool
