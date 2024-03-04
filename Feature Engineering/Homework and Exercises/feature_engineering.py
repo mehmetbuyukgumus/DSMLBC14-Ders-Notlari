@@ -105,12 +105,71 @@ for col in num_cols:
 
 df.loc[:, cat_cols].info()
 
+################# Yasin'in çözümü
+df.select_dtypes(include=['int', 'float']).head()  # Numeric Variables
+df.select_dtypes(include=['object'])  # Categorical Variables
+
+################# Ömer Faruk'un çözümü
+# def cat_summary(dataframe, col_name, plot=False):
+#     """
+#
+#     Fonksiyon, veri setinde yer alan kategorik, numerik vs... şeklinde gruplandırılan değişkenler için özet bir çıktı
+#     sunar.
+#
+#     Parameters
+#     ----------
+#     dataframe : Veri setini ifade
+#     col_name : Değişken grubunu ifade eder
+#     plot : Çıktı olarak bir grafik istenip, istenmediğini ifade eder, defaul olarak "False" gelir
+#
+#     Returns
+#     -------
+#     Herhangi bir değer return etmez
+#
+#     Notes
+#     -------
+#     Fonksiyonun pandas, seaborn ve matplotlib kütüphanelerine bağımlılığı vardır.
+#
+#     """
+#     print(pd.DataFrame({col_name: dataframe[col_name].value_counts(),
+#                         "Ratio": 100 * dataframe[col_name].value_counts() / len(dataframe)}))
+#     print("##########################################")
+#     if plot:
+#         sns.countplot(x=dataframe[col_name], data=dataframe)
+#         plt.show()
+# print(pd.DataFrame({col_name: dataframe[col_name].value_counts(),
+#                         "Ratio": 100 * dataframe[col_name].value_counts() / len(dataframe)}))
+#     print("##########################################")
+#     if plot:
+#         sns.countplot(x=dataframe[col_name], data=dataframe)
+#         plt.show()
+#
+# cat_summary(df, "Outcome", True)
+
+def num_summary(dataframe, numerical_col, plot=False):
+    quantiles = [.01, .05, .10, .20, .30, .40, .50, .60, .70, .80, .90, .95, .99]
+    print(dataframe[numerical_col].describe(quantiles).T)
+
+    if plot:
+        dataframe[numerical_col].hist(bins=20)
+        plt.xlabel(numerical_col)
+        plt.title(numerical_col)
+        plt.show()
+
+for col in num_cols:
+    num_summary(df, col, plot=True)
+
 # Adım 4: Hedef değişken analizi yapınız. (Kategorik değişkenlere göre hedef değişkenin ortalaması, hedef
 # değişkene göre numerik değişkenlerin ortalaması)
 for col in num_cols:
     target_als_cat_cols = df.groupby(df["Outcome"]).agg({col: "mean"})
     print(target_als_cat_cols)
 
+######## Yasin'in çözümü
+categorical_means = df.groupby('Insulin')['Outcome'].mean()
+numeric_means = df.groupby('Outcome').mean()
+categorical_means
+numeric_means
 
 # Adım 5: Aykırı gözlem analizi yapınız.
 def outlier_thresholds(dataframe, col_name, q1=0.25, q3=0.75):
@@ -170,11 +229,14 @@ heatmap = df.corr()
 sns.heatmap(heatmap)
 plt.show(block=False)
 
+######### Emre'nin çözümü
+cor_matrix = df.corr().abs()
+
 ## Görev 2 : Feature Engineering
 
 # Adım 1: Eksik ve aykırı değerler için gerekli işlemleri yapınız. Veri setinde eksik gözlem bulunmamakta ama
 # Glikoz, Insulin vb. değişkenlerde 0 değeri içeren gözlem birimleri eksik değeri ifade ediyor olabilir.
-# Örneğin; bir kişinin glikoz veya insulin değeri 0 olamayacaktır. Bu durumu dikkate alarak sıfır değerlerini
+# Örneğin; bktıir kişinin glikoz veya insulin değeri 0 olamayacar. Bu durumu dikkate alarak sıfır değerlerini
 # ilgili değerlerde NaN olarak atama yapıp sonrasında eksik değerlere işlemleri uygulayabilirsiniz.
 df[(df["Glucose"] == 0) | (df["Insulin"] == 0)].shape
 
@@ -199,7 +261,15 @@ labels_BMI = ["Thin", "Normal", "Fat", "Obez"]
 
 df["Age_Labels"] = pd.qcut(df["Age"], q=4, labels=labes_age)
 df["BMI_Labels"] = pd.qcut(df["BMI"], q=4, labels=labels_BMI)
+df = df.drop(["Age_Labels", "BMI_Labels"], axis=1)
 
+########## Can'ın çözümü
+df['BMI_Age_Product'] = df['BMI'] * df['Age']
+df['BloodPressure_Age_Product'] = df['BloodPressure'] * df['Age']
+df['Pregnancies_Age_Difference'] = df['Pregnancies'] - df['Age']
+df['Insulin_Glucose_Product'] = df['Insulin'] * df['Glucose']
+df['DPF_Age_Sum'] = df['DiabetesPedigreeFunction'] + df['Age']
+df['BMI_SkinThickness_Ratio'] = df['BMI'] / df['SkinThickness']
 
 # Adım 3: Encoding işlemlerini gerçekleştiriniz.
 def one_hot_encoder(dataframe, categorical_cols, drop_first=True):
@@ -244,3 +314,11 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random
 rf_model = RandomForestClassifier(random_state=46).fit(X_train, y_train)
 y_pred = rf_model.predict(X_test)
 accuracy_score(y_pred, y_test)
+
+yeni_kisi = df.iloc[287:288,:]
+yeni_kisi = yeni_kisi.reset_index(drop=True)
+yeni_kisi.drop("Outcome", axis=1, inplace=True)
+
+rf_model.predict(yeni_kisi)
+
+df.iloc[287:288,:]
