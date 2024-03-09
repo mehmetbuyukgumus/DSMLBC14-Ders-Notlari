@@ -1,4 +1,4 @@
-def outlier_thresholds(dataframe, col_name, q1=0.25, q3=0.75):
+def outlier_thresholds(dataframe, col_name, q1=0.05, q3=0.95):
     """
     Bir dataframe için verilen ilgili kolondaki aykırı değerleri tespit edebilmek adına üst ve alt limitleri belirlemeyi
     sağlayan fonksiyondur
