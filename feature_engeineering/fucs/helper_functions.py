@@ -155,7 +155,7 @@ def replace_with_thresholds(dataframe, variable):
     baskılar. Bu fonksiyonun da "outlier_thresholds" fonksiyonuna bağımlılığı vardır.
     Parameters
     ----------
-    dataframe: Aykırı değerli bakılanmak istenen dataframei ifade eder.
+    dataframe: Aykırı değerli baskılanmak istenen dataframei ifade eder.
     variable: Bir başka deyişle col_name'i ifade eder. Aykırı değerleri baskılanacak olan dataframe'in ilgili
     değişkenidir.
 
@@ -273,6 +273,7 @@ def one_hot_encoder(dataframe, categorical_cols, drop_first=True):
     -------
     Fonksiyonun "pandas" kütüphanesine bağımlılığı bulunmaktadır.
     """
+    import pandas as pd
     dataframe = pd.get_dummies(dataframe, columns=categorical_cols, drop_first=drop_first)
     return dataframe
 
@@ -319,6 +320,7 @@ def rare_analyser(dataframe, target, cat_cols):
     -------
     Herhangi bir değer retrun etmez.
     """
+    import pandas as pd
     for col in cat_cols:
         print(col, ":", len(dataframe[col].value_counts()))
         print(pd.DataFrame({"COUNT": dataframe[col].value_counts(),
@@ -340,6 +342,7 @@ def rare_encoder(dataframe, rare_perc):
     -------
     Rare encoding yapılmış datafremi return eder
     """
+    import numpy as np
     temp_df = dataframe.copy()
 
     rare_columns = [col for col in temp_df.columns if temp_df[col].dtypes == 'O'
