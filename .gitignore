@@ -168,3 +168,4 @@ Mülakat Cevapları
 myvenv/
 ML2/
 cart_final_model.pkl
+voting_clf2.pkl

@@ -96,6 +96,7 @@ print(f"Gözlem Başına Hata: {best_score / len(X)}")
 
 # Hiperparametre Optimizasyonu
 cat_model = CatBoostRegressor(random_state=17).fit(X, y)
+cat_model.get_params()
 cv_results_model = cross_validate(cat_model, X, y, scoring=rmse_scorer, cv=10)
 cv_results_model["test_score"].mean()
 # -25438.750213363783
