@@ -123,7 +123,7 @@ if __name__ == "__main__":
                        ('XGBoost', XGBClassifier(), xgboost_params)]
     main()
 
-Son Görev
+#Son Görev
 df = load_data()
 df = pre_preccessing(df, "potential_label")
 y = df["potential_label"]
