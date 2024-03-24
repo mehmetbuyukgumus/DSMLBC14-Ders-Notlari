@@ -59,7 +59,7 @@ def base_models(X, y):
                    ('Adaboost', AdaBoostClassifier()),
                    ('GBM', GradientBoostingClassifier()),
                    ('XGBoost', XGBClassifier(use_label_encoder=False, eval_metric='logloss')),
-                   # ('LightGBM', LGBMClassifier()),
+                   ('LightGBM', LGBMClassifier(verbose=-1)),
                    # ('CatBoost', CatBoostClassifier(verbose=False))
                    ]
     for scrore in scoring:
@@ -94,7 +94,8 @@ def voting_classifier(best_models, X, y):
 
     voting_clf = VotingClassifier(estimators=[('RF', best_models["RF"]),
                                               ('GBM', best_models["GBM"]),
-                                              ('XGBoost', best_models["XGBoost"])],
+                                              ('XGBoost', best_models["XGBoost"]),
+                                              ('LightGBM', best_models["LightGBM"])],
                                   voting='soft').fit(X, y)
 
     cv_results = cross_validate(voting_clf, X, y, cv=3, scoring=["accuracy", "f1", "roc_auc"])
@@ -117,12 +118,12 @@ def main():
 
 if __name__ == "__main__":
     opt_classifiers = [("RF", RandomForestClassifier(), rf_params),
-                       # ('LightGBM', LGBMClassifier(), lightgbm_params),
+                       ('LightGBM', LGBMClassifier(verbose=-1), lightgbm_params),
                        ('GBM', GradientBoostingClassifier(), gbm_params),
                        ('XGBoost', XGBClassifier(), xgboost_params)]
     main()
 
-# Son Görev
+Son Görev
 df = load_data()
 df = pre_preccessing(df, "potential_label")
 y = df["potential_label"]
