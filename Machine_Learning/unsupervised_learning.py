@@ -63,6 +63,7 @@ plt.title("Optimum Küme sayısı için Elbow Yöntemi")
 plt.show()
 
 # Elbow Yöntemi
+## Elbow yöntemi, grafik çizerek optimmm küme sayısının belirlenmesinde karar verirken görsel destekli fikir sunar.
 kmeans = KMeans()
 elbow = KElbowVisualizer(kmeans, k=range(1, 30))
 elbow.fit(df)
