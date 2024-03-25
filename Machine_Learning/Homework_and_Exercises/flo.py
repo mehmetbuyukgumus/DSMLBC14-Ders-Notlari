@@ -129,6 +129,10 @@ def main(cluster="k"):
     df["clusters_k"] = predict_results
     df["clusters_h"] = predict_results_h
     reporting(df, cluster=cluster)
+    print("""
+    ################### Kümelenmiş Veri Seti İlk Beş Gözlem ###################
+    """)
+    print(df.head().iloc[::,-5:])
 
 if __name__ == "__main__":
     print("""
@@ -138,5 +142,5 @@ if __name__ == "__main__":
     .
     İşlem birkaç dakika sürebilir...
     """)
-    main()
+    main("h")
 
