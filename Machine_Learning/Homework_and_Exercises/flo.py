@@ -72,22 +72,13 @@ def modeling_wtih_kmeans(standardized_dataframe, show=False):
 def modeling_with_hierarchical_kmeans(standardized_dataframe, show=False):
     hc_average = linkage(standardized_dataframe, "average")
 
-    plt.figure(figsize=(10, 5))
-    plt.title("Hiyerarşik Kümeleme Dendogramı")
-    plt.xlabel("Gözlem Birimleri")
-    plt.ylabel("Uzaklıklar")
-    dendrogram(hc_average,
-               leaf_font_size=10)
-    if show:
-        plt.show()
-
     plt.figure(figsize=(7, 5))
     plt.title("Hiyerarşik Kümeleme Dendogramı")
     plt.xlabel("Gözlem Birimleri")
     plt.ylabel("Uzaklıklar")
     dendrogram(hc_average,
                truncate_mode="lastp",
-               p=10,
+               p=20,
                show_contracted=True,
                leaf_font_size=10)
     if show:
