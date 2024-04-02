@@ -169,3 +169,4 @@ myvenv/
 ML2/
 cart_final_model.pkl
 voting_clf2.pkl
+sql/Homework_and_Exercises/config.py

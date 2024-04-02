@@ -1,7 +1,8 @@
 import mysql.connector
+from sql.Homework_and_Exercises.config import user, password, host
 
 # Connection
-mydb = mysql.connector.connect(user='root', password='b-612kpc', host='127.0.0.1', database='FLO')
+mydb = mysql.connector.connect(user=user, password=password, host=host, database='FLO')
 
 cursor = mydb.cursor()
 
